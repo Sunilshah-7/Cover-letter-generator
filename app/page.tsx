@@ -1,12 +1,13 @@
 "use client";
 
-import { useCompletion } from "ai/react";
+import { useCompletion } from "@ai-sdk/react";
+import LeftSide from "./components/LeftSide";
+import RightSide from "./components/RightSide";
 
 export default function Home() {
-  const { completion, input, handleInputChange, handleSubmit, isLoading } =
-    useCompletion({
-      api: "/api/generate",
-    });
+  const { completion, handleSubmit, isLoading } = useCompletion({
+    api: "/api/generate",
+  });
 
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -16,49 +17,22 @@ export default function Home() {
 
     handleSubmit(e, { body: { resume, jobDescription } });
   };
+
   return (
-    <main className="max-w-3xl mx-auto p-8 font-sans">
-      <h1 className="text-2xl font-bold mb-6">AI Cover letter generator</h1>
+    <div className="min-h-screen bg-gradient-to-br from-gray-100 to-gray-200 p-8">
+      <div className="max-w-7xl mx-auto">
+        <h1 className="text-4xl font-bold mb-8 text-gray-800">
+          AI Generated Cover Letter
+        </h1>
 
-      <form onSubmit={onSubmit} className="space-y-4">
-        <div>
-          <label className="block font-medium mb-1">Your Resume (Text)</label>
-          <textarea
-            name="resume"
-            rows={6}
-            className="w-full p-2 border rounded text-black"
-            required
-            placeholder="Paste resume here..."
-          />
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          {/* Left Panel - Input */}
+          <LeftSide onSubmit={onSubmit} isLoading={isLoading} />
+
+          {/* Right Panel - Output */}
+          <RightSide completion={completion} />
         </div>
-        <div>
-          <label className="block font-medium mb-1">Job Description</label>
-          <textarea
-            name="jobDescription"
-            rows={6}
-            className="w-full p-2 border rounded text-black"
-            required
-            placeholder="Paste job description here..."
-          />
-        </div>
-
-        <button
-          type="submit"
-          disabled={isLoading}
-          className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 disabled:opacity-50"
-        >
-          {isLoading ? "Generating..." : "Generate Cover Letter"}
-        </button>
-
-        {completion && (
-          <div className="mt-10 p-6 border-t bg-gray-50 rounded shadow-inner whitespace-pre-wrap">
-            <h2 className="text-xl font-semibold mb-5 text-black">
-              Generated Cover letter
-            </h2>
-            <p className="text-gray-800">{completion}</p>
-          </div>
-        )}
-      </form>
-    </main>
+      </div>
+    </div>
   );
 }
