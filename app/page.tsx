@@ -9,13 +9,34 @@ export default function Home() {
     api: "/api/generate",
   });
 
-  const onSubmit = (e: React.FormEvent) => {
+  const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget as HTMLFormElement);
-    const resume = formData.get("resume") as string;
+    const resumeFile = formData.get("resume") as File;
     const jobDescription = formData.get("jobDescription") as string;
 
-    handleSubmit(e, { body: { resume, jobDescription } });
+    if (!resumeFile || !jobDescription) {
+      alert("Please provide both resume and job description");
+      return;
+    }
+
+    // Read the PDF file content as base64
+    const reader = new FileReader();
+    reader.onload = async (event) => {
+      const resumeContent = event.target?.result as string;
+
+      handleSubmit(e, {
+        body: {
+          resume: resumeContent,
+          jobDescription,
+        },
+      });
+    };
+
+    console.log("Formdata file:", formData);
+
+    // Read as Data URL (base64) for PDF files
+    reader.readAsDataURL(resumeFile);
   };
 
   return (
