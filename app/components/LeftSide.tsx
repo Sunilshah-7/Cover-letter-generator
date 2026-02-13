@@ -9,7 +9,7 @@ export default function LeftSide({
   onSubmit,
   isLoading,
 }: {
-  onSubmit: (e: React.FormEvent) => void;
+  onSubmit: (e: React.FormEvent, file: File | null) => void;
   isLoading: boolean;
 }) {
   const [uploadedFile, setUploadedFile] = useState<File | null>(null);
@@ -52,18 +52,13 @@ export default function LeftSide({
 
   const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    console.log("Clicked");
+    // Get the file from state (drag-drop) or from input element (file picker)
+    const fileToSubmit =
+      uploadedFile || fileInputRef.current?.files?.[0] || null;
 
-    // Create FormData and manually add the uploaded file
-    const form = e.currentTarget;
-    const formData = new FormData(form);
-
-    // If file was uploaded via drag-and-drop, ensure it's in FormData
-    if (uploadedFile) {
-      formData.set("resume", uploadedFile);
-    }
-
-    // Call parent's onSubmit with the form event
-    onSubmit(e);
+    // Call parent's onSubmit with the file
+    onSubmit(e, fileToSubmit);
   };
 
   const handleClick = () => {

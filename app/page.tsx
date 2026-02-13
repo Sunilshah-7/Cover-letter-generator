@@ -5,15 +5,20 @@ import LeftSide from "./components/LeftSide";
 import RightSide from "./components/RightSide";
 
 export default function Home() {
-  const { completion, handleSubmit, isLoading } = useCompletion({
+  const { completion, complete, isLoading } = useCompletion({
     api: "/api/generate",
+    // Server returns a text/plain stream via toTextStreamResponse
+    streamProtocol: "text",
   });
 
-  const onSubmit = async (e: React.FormEvent) => {
+  const onSubmit = async (e: React.FormEvent, file: File | null) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget as HTMLFormElement);
-    const resumeFile = formData.get("resume") as File;
+    const resumeFile = file;
     const jobDescription = formData.get("jobDescription") as string;
+
+    // console.log("Formdata file:", resumeFile);
+    // console.log("Job Description:", jobDescription);
 
     if (!resumeFile || !jobDescription) {
       alert("Please provide both resume and job description");
@@ -25,15 +30,20 @@ export default function Home() {
     reader.onload = async (event) => {
       const resumeContent = event.target?.result as string;
 
-      handleSubmit(e, {
-        body: {
-          resume: resumeContent,
-          jobDescription,
-        },
-      });
+      try {
+        await complete("", {
+          body: {
+            resume: resumeContent,
+            jobDescription,
+          },
+        });
+      } catch (err) {
+        console.error("Failed to call /api/generate:", err);
+        alert(
+          "Could not generate cover letter. Check the console for details.",
+        );
+      }
     };
-
-    console.log("Formdata file:", formData);
 
     // Read as Data URL (base64) for PDF files
     reader.readAsDataURL(resumeFile);

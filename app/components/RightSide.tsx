@@ -1,32 +1,50 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { IoDocumentTextOutline } from "react-icons/io5";
+import { Document, Packer, Paragraph, TextRun } from "docx";
+import { saveAs } from "file-saver";
+// import jsPDF from "jspdf";
 
 export default function RightSide({
   completion,
 }: {
   completion: string | null;
 }) {
-  const downloadDocx = (completion) => {
-    const blob = new Blob([completion], {
-      type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+  useEffect(() => {
+    console.log("Content received from /api/generate:", completion);
+  }, [completion]);
+
+  const downloadDocx = async (content: string) => {
+    // Split content into paragraphs
+    const paragraphs = content.split("\n").map(
+      (line) =>
+        new Paragraph({
+          children: [new TextRun(line || " ")], // Use space for empty lines
+        }),
+    );
+
+    const doc = new Document({
+      sections: [
+        {
+          properties: {},
+          children: paragraphs,
+        },
+      ],
     });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "cover-letter.docx";
-    a.click();
+
+    const blob = await Packer.toBlob(doc);
+    saveAs(blob, "cover-letter.docx");
   };
 
-  const downloadPdf = (completion) => {
-    const blob = new Blob([completion], {
-      type: "application/pdf",
-    });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "cover-letter.pdf";
-    a.click();
-  };
+  // const downloadPdf = (content: string) => {
+  //   const doc = new jsPDF();
+
+  //   // Split text into lines and add to PDF
+  //   const lines = doc.splitTextToSize(content, 180); // 180mm width
+  //   doc.text(lines, 15, 15); // x=15, y=15 margin
+
+  //   doc.save("cover-letter.pdf");
+  // };
+
   return (
     <div className="bg-white rounded-lg shadow-lg p-6">
       <h2 className="text-xl font-semibold mb-6 text-gray-800 uppercase tracking-wide">
@@ -40,12 +58,18 @@ export default function RightSide({
           </div>
 
           <div className="flex gap-3">
-            <button onClick={() => downloadDocx(completion)}>
+            <button
+              onClick={() => downloadDocx(completion)}
+              className="px-4 py-2 rounded-md bg-blue-500 text-white font-semibold shadow-sm hover:bg-blue-700 transition-colors"
+            >
               Download .DOCX
             </button>
-            <button onClick={() => downloadPdf(completion)}>
+            {/* <button
+              onClick={() => downloadPdf(completion)}
+              className="px-4 py-2 rounded-md bg-red-500 text-white font-semibold shadow-sm hover:bg-red-700 transition-colors"
+            >
               Download .PDF
-            </button>
+            </button> */}
           </div>
         </div>
       ) : (
