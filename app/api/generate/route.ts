@@ -1,8 +1,6 @@
 import { google } from "@ai-sdk/google";
 import { streamText } from "ai";
-import pdf from "pdf-parse-new";
-
-export const maxDuration = 30;
+import * as pdfjsLib from "pdfjs-dist/legacy/build/pdf.mjs";
 
 export async function POST(req: Request) {
   const { resume, jobDescription } = await req.json();
@@ -17,9 +15,22 @@ export async function POST(req: Request) {
       const base64Data = resume.split(",")[1];
       const pdfBuffer = Buffer.from(base64Data, "base64");
 
-      // Parse PDF and extract text
-      const pdfData = await pdf(pdfBuffer);
-      resumeText = pdfData.text;
+      // Parse PDF and extract text using pdfjs-dist
+      const loadingTask = pdfjsLib.getDocument({ data: pdfBuffer });
+      const pdfDocument = await loadingTask.promise;
+      const numPages = pdfDocument.numPages;
+
+      let fullText = "";
+      for (let pageNum = 1; pageNum <= numPages; pageNum++) {
+        const page = await pdfDocument.getPage(pageNum);
+        const textContent = await page.getTextContent();
+        const pageText = textContent.items
+          .map((item: any) => item.str)
+          .join(" ");
+        fullText += pageText + "\n";
+      }
+
+      resumeText = fullText;
     } catch (error) {
       console.error("Error parsing PDF:", error);
       return new Response(
