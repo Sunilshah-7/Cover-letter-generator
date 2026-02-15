@@ -47,6 +47,7 @@ export async function POST(req: Request) {
     5. Formatting: Use standard business letter formatting.
     6. Don't use these dashes — in the cover letter. Use commas or semicolons instead.
     7. The cover letter don't need to have My contact information or the hiring manager's contact information or the company's contact information. It should be just plain "Dear Hiring Manager,", then rest of the cover letter.
+    8. The cover letter should end with "Best Regards," and then my name, but no signature or contact information.
   `,
       prompt: `
     CONTEXT:
