@@ -45,6 +45,8 @@ export async function POST(req: Request) {
     3. Proof Points: Do not just list duties. Connect specific projects and leadership experiences from the resume directly to the requirements of the job.
     4. Tone: Maintain a professional, confident, and enthusiastic tone. Avoid clichés like "I am a hard worker" or "To whom it may concern."
     5. Formatting: Use standard business letter formatting.
+    6. Don't use these dashes — in the cover letter. Use commas or semicolons instead.
+    7. The cover letter don't need to have My contact information or the hiring manager's contact information or the company's contact information. It should be just plain "Dear Hiring Manager,", then rest of the cover letter.
   `,
       prompt: `
     CONTEXT:
