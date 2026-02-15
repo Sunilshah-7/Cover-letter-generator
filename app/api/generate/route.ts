@@ -2,6 +2,10 @@ import { google } from "@ai-sdk/google";
 import { streamText } from "ai";
 import * as pdfjsLib from "pdfjs-dist/legacy/build/pdf.mjs";
 
+// Add these export configurations
+export const runtime = "edge"; // or 'nodejs'
+export const dynamic = "force-dynamic";
+
 export async function POST(req: Request) {
   const { resume, jobDescription } = await req.json();
 
