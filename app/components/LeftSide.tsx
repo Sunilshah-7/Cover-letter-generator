@@ -52,12 +52,8 @@ export default function LeftSide({
 
   const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("Clicked");
-    // Get the file from state (drag-drop) or from input element (file picker)
     const fileToSubmit =
       uploadedFile || fileInputRef.current?.files?.[0] || null;
-
-    // Call parent's onSubmit with the file
     onSubmit(e, fileToSubmit);
   };
 

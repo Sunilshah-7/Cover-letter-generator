@@ -17,9 +17,6 @@ export default function Home() {
     const resumeFile = file;
     const jobDescription = formData.get("jobDescription") as string;
 
-    // console.log("Formdata file:", resumeFile);
-    // console.log("Job Description:", jobDescription);
-
     if (!resumeFile || !jobDescription) {
       alert("Please provide both resume and job description");
       return;
@@ -38,14 +35,11 @@ export default function Home() {
           },
         });
       } catch (err) {
-        console.error("Failed to call /api/generate:", err);
-        alert(
-          "Could not generate cover letter. Check the console for details.",
-        );
+        console.error("Failed to call api:", err);
+        alert("Could not generate cover letter. Check the logs for details.");
       }
     };
 
-    // Read as Data URL (base64) for PDF files
     reader.readAsDataURL(resumeFile);
   };
 

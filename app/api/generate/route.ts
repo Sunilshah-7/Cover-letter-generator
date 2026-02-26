@@ -10,7 +10,6 @@ export const maxDuration = 60; // Maximum execution time in seconds
 export async function POST(req: Request) {
   const { resume, jobDescription } = await req.json();
 
-  console.log("Received resume and job description in /api/generate");
   // Parse PDF if resume is a base64 data URL
   let resumeText = resume;
 
@@ -24,7 +23,6 @@ export async function POST(req: Request) {
       const pdfData = await pdfParse(pdfBuffer);
       resumeText = pdfData.text;
     } catch (error) {
-      console.error("Error parsing PDF:", error);
       return new Response(
         JSON.stringify({ error: "Failed to parse PDF resume" }),
         { status: 400 },
@@ -60,12 +58,9 @@ export async function POST(req: Request) {
     Highlight my leadership skills and technical expertise where they align with the company's needs.
   `,
     });
-    console.log("Gemini generation started");
-    console.log(result);
-    console.log(typeof result.toTextStreamResponse);
+
     return result.toTextStreamResponse();
   } catch (error) {
-    console.error("Gemini generation failed:", error);
     return new Response(
       JSON.stringify({ error: "Failed to generate cover letter" }),
       { status: 500 },

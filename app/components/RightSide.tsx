@@ -10,7 +10,7 @@ export default function RightSide({
   completion: string | null;
 }) {
   useEffect(() => {
-    console.log("Content received from /api/generate:", completion);
+    console.log("Content received ");
   }, [completion]);
 
   const downloadDocx = async (content: string) => {
