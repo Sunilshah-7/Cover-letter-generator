@@ -3,6 +3,7 @@
 import { useCompletion } from "@ai-sdk/react";
 import LeftSide from "./components/LeftSide";
 import RightSide from "./components/RightSide";
+import { Analytics } from "@vercel/analytics/next";
 
 export default function Home() {
   const { completion, complete, isLoading } = useCompletion({
@@ -58,6 +59,7 @@ export default function Home() {
           <RightSide completion={completion} />
         </div>
       </div>
+      <Analytics />
     </div>
   );
 }
