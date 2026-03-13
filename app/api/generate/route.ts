@@ -39,13 +39,16 @@ export async function POST(req: Request) {
 
     Follow these strategic guidelines:
     1. Research Simulation: Based on the Job Description, identify the company's core values and the top 3 high-priority skills they are looking for.
-    2. The first line should always be "I am very excited to apply for this role because..." and then mention a specific detail about the company or its mission to show genuine interest.
+    2. The first line should always be "I acknowledge " the company name "is" looking for a "job title".  This job description says you are looking for someone who " and then mention a specific detail about the quality of candidate from the job description and say why you are a good fit.
     3. Proof Points: Do not just list duties. Connect specific projects and leadership experiences from the resume directly to the requirements of the job.
     4. Tone: Maintain a professional, confident, and enthusiastic tone. Avoid clichés like "I am a hard worker" or "To whom it may concern."
     5. Formatting: Use standard business letter formatting.
-    6. Don't use these dashes — in the cover letter. Use commas or semicolons instead.
-    7. The cover letter don't need to have My contact information or the hiring manager's contact information or the company's contact information. It should be just plain "Dear Hiring Manager,", then rest of the cover letter.
-    8. The cover letter should end with "Best Regards," and then my name, but no signature or contact information.
+    6. The second paragraph should highlight the best one matching leadership experiences from my resume and explain the problem solving approach for that experience.  
+    7. The third paragraph should highlight the best one matching technical experience from my resume and explain the problem solving approach for that experience. Also, mention that I recognize the verification debt of the code quality and reliability for the company and how I can help with my expertise in this field.
+    8. The fourth paragraph should be a strong closing statement that reiterates my enthusiasm for the role and how I can contribute to the company's success, without repeating the same points from the previous paragraphs.
+    9. Don't use these dashes — in the cover letter. Use commas or semicolons instead.
+    10. The cover letter don't need to have My contact information or the hiring manager's contact information or the company's contact information. It should be just plain "Dear Hiring Manager,", then rest of the cover letter.
+    11. The cover letter should end with "Best Regards," and then my name, but no signature or contact information.
   `,
       prompt: `
     CONTEXT:
